@@ -50,8 +50,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function Skill()
+    public function skills()
     {
-        return $this->belongsToMany(Skill::class)->withPivot('skill_matrix');
+        return $this->belongsToMany(Skill::class)->withPivot('level');
     }
+
+   
 }

@@ -64,6 +64,7 @@
         <a href="{{ route('redirect', 'google') }}" class="btn btn-block btn-danger">
           <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
         </a>
+        <a href="{{ route('register') }}"  class="btn btn-primary btn-block">Register</a>
       </div>
     </div>
     <!-- /.login-card-body -->

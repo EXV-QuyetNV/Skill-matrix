@@ -42,24 +42,15 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('users.store') }}" method="post" id="createUser">
+                            <form action="{{ route('skills.store') }}" method="post" id="createSkill">
                                 @csrf
-                                <input type="email" class="form-control  @error('email') border border-danger @enderror"
-                                    style="margin-bottom: 10px" placeholder="Email" name="email">
                                 <input type="type" class="form-control @error('name') border border-danger @enderror"
                                     style="margin-bottom: 10px" placeholder="Name" name="name">
-                                <input type="password"
-                                    class="form-control @error('password') border border-danger @enderror"
-                                    style="margin-bottom: 10px" placeholder="Password" name="password">
-                                <input type="password"
-                                    class="form-control @error('comfirmPassword') border border-danger @enderror"
-                                    style="margin-bottom: 10px" placeholder="confirmPassword" name="confirmPassword">
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="document.getElementById('createUser').submit();">Create</button>
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('createSkill').submit();">Create</button>
                         </div>
                     </div>
                 </div>
@@ -81,23 +72,21 @@
                         <tr>
                             <th>User ID</th>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Created</th>
                             <th>Updated</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($skills as $skill)
                             <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->created_at }}</td>
-                                <td>{{ $user->updated_at }}</td>
+                                <td>{{ $skill->id }}</td>
+                                <td>{{ $skill->name }}</td>
+                                <td>{{ $skill->created_at }}</td>
+                                <td>{{ $skill->updated_at }}</td>
                                 <td>
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="post">
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                    <form action="{{ route('skills.destroy', $skill->id) }}" method="post">
+                                        <a href="{{ route('skills.edit', $skill->id) }}" class="btn btn-primary">Edit</a>
                                         @csrf
                                         @method('delete')
                                         <button type="submit" class="btn btn-danger">Delete </button>

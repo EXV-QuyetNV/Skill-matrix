@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Skill;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $skills = Skill::all();
+        $users = User::all();
+        return view('home.index', compact(['skills', 'users']));
     }
 }

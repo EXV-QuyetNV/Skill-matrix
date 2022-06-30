@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class LoginController extends Controller
 {
@@ -41,6 +43,21 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+        $data = [
+            'email' => $request['email'],
+            'password' => $request['password'],
+        ];
+        if (auth()->attempt($data)) {
+            return redirect()->to('home');
+        } else {
+            return redirect(url()->previous());
+        }
 
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

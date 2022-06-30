@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -56,12 +57,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
         return User::create([
@@ -69,5 +64,25 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    public function showRegistrationForm() {
+
+        return view('auth.register');
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $data = [
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ];
+
+        $user = User::create($data);
+
+        if ($user) {
+            return redirect()->to('login');
+        } else {
+            return redirect(url()->previous());
+        }
     }
 }

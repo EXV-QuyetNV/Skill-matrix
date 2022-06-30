@@ -17,7 +17,7 @@ class SocialAccountService
 
         if ($account) {
             $user = [
-                'username' => $account->user->username,
+                'email' => $account->user->email,
                 'password' => config('lesson.password'),
             ];
 
@@ -33,15 +33,12 @@ class SocialAccountService
                 $user = User::create([
                     'email' => $email,
                     'name' => $providerUser->getName(),
-                    'username' => $providerUser->getName(),
-                    'password' => Hash::make(config('lesson.password')),
-                    'avatar' => $providerUser->getAvatar(),
-                    'role' => config('lesson.zero'),
+                    'password' => Hash::make(11111111),
                 ]);
             }
             $data = [
-                'username' => $user->username,
-                'password' => config('lesson.password'),
+                'email' => $user->email,
+                'password' => 11111111,
             ];
 
             $account->user()->associate($user->id);
