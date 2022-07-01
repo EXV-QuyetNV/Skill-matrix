@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('skills', SkillController::class);
     Route::resource('skill-user', SkillUserController::class)->only('store');
+    Route::get('skill-user.show-level-history', [SkillUserController::class, 'showLevelHistory'])->name('show-level-history');
 });
 
 

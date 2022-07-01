@@ -33,6 +33,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+      <!-- jQuery -->
+      <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+      <!-- jQuery UI 1.11.4 -->
+      <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -213,10 +217,6 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)

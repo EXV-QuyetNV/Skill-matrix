@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Carbon\Traits\Timestamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Skill extends Model
 {
-    use HasFactory, Timestamp;
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -16,17 +16,23 @@ class Skill extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('level');
+        return $this->belongsToMany(User::class)->withPivot('level')->withTimestamps();
     }
 
-    public function getLevelByUser($userID)
+    public function getLatestUserLevel($userID)
     {
-        return $this->users()->where('user_id', $userID)->pluck('level')->first();
+        $skillUser = DB::table('skill_user')
+        ->where('user_id', $userID)
+        ->where('skill_id', $this->id)
+        ->orderBy('created_at', 'desc')->pluck('level')->first();
+
+        return $skillUser;
     }
 
     public function getColorForLevel($userID)
     {
-        $level = $this->getLevelByUser($userID);
+        $level = $this->getLatestUserLevel($userID);
+
         if (is_null($level)) {
             return 'none';
         } else {

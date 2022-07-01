@@ -65,15 +65,18 @@
                             <td>{{ $user->name }}</td>
                             @foreach ($skills as $skill)
                                 <td style="background-color: {{ $skill->getColorForLevel($user->id) }}">
-                                    <select style="border: none; background: none" onchange="$('#{{ $user->id . 'a' . $skill->id }}').modal('show'); level()" id="{{ $user->id . 'c' . $skill->id }}">
-                                        <option selected>{{ $skill->getLevelByUser($user->id) }}</option>
-                                        <option value="-1">-1</option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                    <select style="border: none; background: none; cursor: pointer"
+                                        onchange="$('#{{ $user->id . 'a' . $skill->id }}').modal('show'); level{{ $user->id . 'c' . $skill->id }}()"
+                                        id="{{ $user->id . 'c' . $skill->id }}" data-toggle="tooltip" data-placement="top"
+                                        title="">
+                                        <option selected>{{ $skill->getLatestUserLevel($user->id) }}</option>
+                                        <option>-1</option>
+                                        <option>0</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
                                     </select>
                                 </td>
                                 <div class="modal fade" id="{{ $user->id . 'a' . $skill->id }}" tabindex="-1"
@@ -97,7 +100,8 @@
                                                         class="form-control">
                                                     <input type="hidden" name="skill_id" value="{{ $skill->id }}">
                                                     <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                    <input type="hidden" name="level" id="{{ $user->id . 'b' . $skill->id }}"  value="">
+                                                    <input type="hidden" name="level"
+                                                        id="{{ $user->id . 'b' . $skill->id }}" value="">
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -109,6 +113,31 @@
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    function level{{ $user->id . 'c' . $skill->id }}() {
+                                        var level = document.getElementById('{{ $user->id . 'c' . $skill->id }}').value;
+                                        document.getElementById('{{ $user->id . 'b' . $skill->id }}').value = level;
+                                    }
+
+                                    $('#{{ $user->id . 'c' . $skill->id }}').hover(function(event) {
+                                        $.ajax({
+                                            Type: 'GET',
+                                            url: '{{ route('show-level-history') }}',
+                                            data: {
+                                                user_id: {{ $user->id }},
+                                                skill_id: {{ $skill->id }},
+                                            },
+
+                                            success: function(data) {
+                                                for (var i = 0; i < data.skill_user.length; i++) {
+                                                    var history = 'level ' + data.skill_user[i]['level'] + ' to ' + data.skill_user[i]['created_at'];
+                                                    var a = history.concat(history);
+                                                }
+                                                    document.getElementById('{{ $user->id . 'c' . $skill->id }}').title = a;
+                                            }
+                                        })
+                                    })
+                                </script>
                             @endforeach
                         </tr>
                     @endforeach
@@ -117,9 +146,3 @@
         </div>
     </div>
 @endsection
-<script>
-    function level() {
-        let level = document.getElementById('{{ $user->id . 'c' . $skill->id }}'.value);
-        alert(level);
-    }
-</script>
